@@ -21,7 +21,12 @@ from diagram.model import (
     ROLES_BY_TYPE,
     DiagramSpec,
 )
-from diagram.render import build_graph
+from diagram.render import (
+    DEFAULT_ROLE_SHAPE,
+    GV_TO_FRIENDLY,
+    SHAPE_CHOICES,
+    build_graph,
+)
 from diagram.themes import get_theme, preset_names
 
 # --------------------------------------------------------------------------------------
@@ -164,6 +169,41 @@ with st.sidebar:
         )
         st.session_state.rankdir = rankdir
 
+    # ---- Labels shown (toggle what appears inside/along the diagram) -------------
+    _is_tree = st.session_state.diagram_type == "decision_tree"
+    with st.expander("🔤 Labels shown"):
+        show_edge_labels = st.checkbox("Connection labels", value=True)
+        if _is_tree:
+            show_ev = st.checkbox("Expected Value in boxes", value=True)
+            show_values = st.checkbox("Payoff / cost in terminal boxes", value=True)
+            show_edge_probs = st.checkbox("Probabilities on connections", value=True)
+        else:
+            show_ev = show_values = show_edge_probs = False
+        arrowheads = st.checkbox(
+            "Arrowheads",
+            value=True,
+            help="Turn off for clean lines that merge into the boxes.",
+        )
+
+    # ---- Shapes (per-role shape picker for the current diagram type) ------------
+    with st.expander("🔷 Shapes"):
+        shape_overrides = {}
+        _friendly = list(SHAPE_CHOICES.keys())
+        for role in ROLES_BY_TYPE[st.session_state.diagram_type]:
+            _def_gv = (
+                "diamond"
+                if (role == "decision" and st.session_state.diagram_type == "flowchart")
+                else DEFAULT_ROLE_SHAPE.get(role, "box")
+            )
+            _def_friendly = GV_TO_FRIENDLY.get(_def_gv, "Rectangle")
+            pick = st.selectbox(
+                ROLE_LABELS.get(role, role),
+                _friendly,
+                index=_friendly.index(_def_friendly),
+                key=f"shape_{st.session_state.diagram_type}_{role}",
+            )
+            shape_overrides[role] = SHAPE_CHOICES[pick]
+
     # ---- Save / Load ------------------------------------------------------------
     with st.expander("💾 Save / Load"):
         uploaded = st.file_uploader("Load a saved .json diagram", type=["json"])
@@ -211,7 +251,7 @@ with edit_tab:
         ),
         "subtitle": st.column_config.TextColumn("Subtitle"),
         "fill": st.column_config.TextColumn("Fill (hex)", help="e.g. #4f46e5 — blank uses the theme color."),
-        "font_size": st.column_config.NumberColumn("Font", help="Per-node font size override (pt).", min_value=8, max_value=60, step=1),
+        "font_size": st.column_config.NumberColumn("Font size (pt)", help="Text size for THIS box in points; leave blank to use the theme's node font size.", min_value=8, max_value=60, step=1),
     }
     if not is_tree:
         # Value/EV only meaningful for decision trees; hide to reduce clutter.
@@ -296,7 +336,17 @@ with preview_tab:
 
         # Render
         try:
-            dot = build_graph(spec, theme, ev)
+            dot = build_graph(
+                spec,
+                theme,
+                ev,
+                show_ev=show_ev,
+                show_values=show_values,
+                show_edge_labels=show_edge_labels,
+                show_edge_probs=show_edge_probs,
+                shape_overrides=shape_overrides,
+                arrowheads=arrowheads,
+            )
             st.graphviz_chart(dot, width="stretch")
         except Exception as exc:  # noqa: BLE001
             st.error(f"Couldn't render the diagram: {exc}")

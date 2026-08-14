@@ -1,4 +1,3 @@
-# Decisiontree
 # 🗺️ Diagram & Decision Studio
 
 A Streamlit app for building **executive-ready diagrams** — decision trees (with
@@ -90,4 +89,3 @@ sample_diagrams/       Example .json diagrams you can load in-app
   this range) so text is readable when projected.
 - Export **SVG** first; only fall back to PNG if a tool can't take SVG.
 - Use the **Optimal path** color to make the recommended decision pop for executives.
-
