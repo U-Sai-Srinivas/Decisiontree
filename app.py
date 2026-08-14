@@ -6,8 +6,11 @@ Run locally:   streamlit run app.py
 
 from __future__ import annotations
 
+import re
+
 import graphviz
 import streamlit as st
+import streamlit.components.v1 as components
 
 from diagram import gv_setup
 from diagram import export as export_mod
@@ -60,6 +63,36 @@ def _with_dpi(source: str, dpi: int) -> str:
     if idx == -1:
         return source
     return source[: idx + 1] + f"\n\tgraph [dpi={dpi}]\n" + source[idx + 1 :]
+
+
+def _render_svg_preview(svg_bytes: bytes) -> None:
+    """Embed a SERVER-rendered SVG for the live preview.
+
+    We render the SVG with the real Graphviz ``dot`` engine (same one used for the
+    downloads) instead of Streamlit's client-side graphviz renderer. That guarantees
+    the preview matches the exported file exactly — identical shapes and a single
+    arrowhead style — no matter which Streamlit/graphviz version the browser bundles.
+    """
+    svg = svg_bytes.decode("utf-8", errors="replace")
+
+    # Aspect ratio from the viewBox, so we can size the embedding iframe sensibly.
+    ratio = 0.7
+    m = re.search(r'viewBox="([^"]+)"', svg)
+    if m:
+        parts = m.group(1).split()
+        if len(parts) == 4 and float(parts[2]):
+            ratio = float(parts[3]) / float(parts[2])
+
+    # Let the SVG scale to the container width (CSS overrides its pt width/height attrs).
+    svg = re.sub(r"<svg ", '<svg style="width:100%;height:auto;display:block" ', svg, count=1)
+
+    approx_width = 720
+    height = max(220, min(int(approx_width * ratio) + 24, 1000))
+    components.html(
+        f'<div style="width:100%;background:#ffffff;overflow:auto">{svg}</div>',
+        height=height,
+        scrolling=True,
+    )
 
 
 # --------------------------------------------------------------------------------------
@@ -347,7 +380,12 @@ with preview_tab:
                 shape_overrides=shape_overrides,
                 arrowheads=arrowheads,
             )
-            st.graphviz_chart(dot, width="stretch")
+            # Prefer a server-rendered SVG so the preview matches the export exactly.
+            # Fall back to the client-side renderer only if the dot engine is missing.
+            if DOT_AVAILABLE:
+                _render_svg_preview(_pipe(dot.source, "svg"))
+            else:
+                st.graphviz_chart(dot, width="stretch")
         except Exception as exc:  # noqa: BLE001
             st.error(f"Couldn't render the diagram: {exc}")
             dot = None
