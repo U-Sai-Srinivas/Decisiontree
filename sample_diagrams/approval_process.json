@@ -1,0 +1,146 @@
+{
+  "diagram_type": "flowchart",
+  "title": "Sample Approval Process",
+  "theme_name": "Executive Slate",
+  "rankdir": "TB",
+  "nodes": [
+    {
+      "id": "S",
+      "label": "Sample received",
+      "role": "start_end",
+      "value": null,
+      "subtitle": "",
+      "fill": null,
+      "font_size": null
+    },
+    {
+      "id": "P1",
+      "label": "Log in LIMS",
+      "role": "process",
+      "value": null,
+      "subtitle": "",
+      "fill": null,
+      "font_size": null
+    },
+    {
+      "id": "P2",
+      "label": "Run QC checks",
+      "role": "process",
+      "value": null,
+      "subtitle": "",
+      "fill": null,
+      "font_size": null
+    },
+    {
+      "id": "D1",
+      "label": "Passes QC?",
+      "role": "decision",
+      "value": null,
+      "subtitle": "",
+      "fill": null,
+      "font_size": null
+    },
+    {
+      "id": "P3",
+      "label": "Approve & store",
+      "role": "process",
+      "value": null,
+      "subtitle": "",
+      "fill": null,
+      "font_size": null
+    },
+    {
+      "id": "P4",
+      "label": "Flag for re-prep",
+      "role": "process",
+      "value": null,
+      "subtitle": "",
+      "fill": null,
+      "font_size": null
+    },
+    {
+      "id": "DOC",
+      "label": "QC report",
+      "role": "document",
+      "value": null,
+      "subtitle": "",
+      "fill": null,
+      "font_size": null
+    },
+    {
+      "id": "E",
+      "label": "Ready for assay",
+      "role": "start_end",
+      "value": null,
+      "subtitle": "",
+      "fill": null,
+      "font_size": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "S",
+      "target": "P1",
+      "label": "",
+      "probability": null,
+      "style": "solid",
+      "color": null
+    },
+    {
+      "source": "P1",
+      "target": "P2",
+      "label": "",
+      "probability": null,
+      "style": "solid",
+      "color": null
+    },
+    {
+      "source": "P2",
+      "target": "D1",
+      "label": "",
+      "probability": null,
+      "style": "solid",
+      "color": null
+    },
+    {
+      "source": "D1",
+      "target": "P3",
+      "label": "Yes",
+      "probability": null,
+      "style": "solid",
+      "color": null
+    },
+    {
+      "source": "D1",
+      "target": "P4",
+      "label": "No",
+      "probability": null,
+      "style": "dashed",
+      "color": null
+    },
+    {
+      "source": "P4",
+      "target": "P2",
+      "label": "re-run",
+      "probability": null,
+      "style": "solid",
+      "color": null
+    },
+    {
+      "source": "P3",
+      "target": "DOC",
+      "label": "",
+      "probability": null,
+      "style": "solid",
+      "color": null
+    },
+    {
+      "source": "DOC",
+      "target": "E",
+      "label": "",
+      "probability": null,
+      "style": "solid",
+      "color": null
+    }
+  ]
+}

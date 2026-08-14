@@ -1,0 +1,121 @@
+{
+  "diagram_type": "decision_tree",
+  "title": "Make vs. Buy",
+  "theme_name": "Executive Slate",
+  "rankdir": "LR",
+  "nodes": [
+    {
+      "id": "D1",
+      "label": "Make vs. Buy",
+      "role": "decision",
+      "value": null,
+      "subtitle": "",
+      "fill": null,
+      "font_size": null
+    },
+    {
+      "id": "C1",
+      "label": "Build In-House",
+      "role": "chance",
+      "value": null,
+      "subtitle": "",
+      "fill": null,
+      "font_size": null
+    },
+    {
+      "id": "C2",
+      "label": "Buy from Vendor",
+      "role": "chance",
+      "value": null,
+      "subtitle": "",
+      "fill": null,
+      "font_size": null
+    },
+    {
+      "id": "T1",
+      "label": "On-time launch",
+      "role": "terminal",
+      "value": 500000,
+      "subtitle": "",
+      "fill": null,
+      "font_size": null
+    },
+    {
+      "id": "T2",
+      "label": "Delay & overrun",
+      "role": "terminal",
+      "value": 50000,
+      "subtitle": "",
+      "fill": null,
+      "font_size": null
+    },
+    {
+      "id": "T3",
+      "label": "Meets needs",
+      "role": "terminal",
+      "value": 300000,
+      "subtitle": "",
+      "fill": null,
+      "font_size": null
+    },
+    {
+      "id": "T4",
+      "label": "Integration issues",
+      "role": "terminal",
+      "value": 120000,
+      "subtitle": "",
+      "fill": null,
+      "font_size": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "D1",
+      "target": "C1",
+      "label": "Build In-House",
+      "probability": null,
+      "style": "solid",
+      "color": null
+    },
+    {
+      "source": "D1",
+      "target": "C2",
+      "label": "Buy from Vendor",
+      "probability": null,
+      "style": "solid",
+      "color": null
+    },
+    {
+      "source": "C1",
+      "target": "T1",
+      "label": "Success",
+      "probability": 0.6,
+      "style": "solid",
+      "color": null
+    },
+    {
+      "source": "C1",
+      "target": "T2",
+      "label": "Delay",
+      "probability": 0.4,
+      "style": "solid",
+      "color": null
+    },
+    {
+      "source": "C2",
+      "target": "T3",
+      "label": "Meets needs",
+      "probability": 0.8,
+      "style": "solid",
+      "color": null
+    },
+    {
+      "source": "C2",
+      "target": "T4",
+      "label": "Issues",
+      "probability": 0.2,
+      "style": "solid",
+      "color": null
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "diagram_type": "org_mindmap",
+  "title": "Company Org Chart",
+  "theme_name": "Executive Slate",
+  "rankdir": "TB",
+  "nodes": [
+    {
+      "id": "CEO",
+      "label": "CEO",
+      "role": "box",
+      "value": null,
+      "subtitle": "",
+      "fill": null,
+      "font_size": null
+    },
+    {
+      "id": "CSO",
+      "label": "Chief Scientific Officer",
+      "role": "box",
+      "value": null,
+      "subtitle": "",
+      "fill": null,
+      "font_size": null
+    },
+    {
+      "id": "CFO",
+      "label": "Chief Financial Officer",
+      "role": "box",
+      "value": null,
+      "subtitle": "",
+      "fill": null,
+      "font_size": null
+    },
+    {
+      "id": "COO",
+      "label": "Chief Operating Officer",
+      "role": "box",
+      "value": null,
+      "subtitle": "",
+      "fill": null,
+      "font_size": null
+    },
+    {
+      "id": "GEN",
+      "label": "Genomics Lead",
+      "role": "box",
+      "value": null,
+      "subtitle": "",
+      "fill": null,
+      "font_size": null
+    },
+    {
+      "id": "CB",
+      "label": "Comp Bio Lead",
+      "role": "box",
+      "value": null,
+      "subtitle": "",
+      "fill": null,
+      "font_size": null
+    },
+    {
+      "id": "FIN",
+      "label": "Finance Manager",
+      "role": "box",
+      "value": null,
+      "subtitle": "",
+      "fill": null,
+      "font_size": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "CEO",
+      "target": "CSO",
+      "label": "",
+      "probability": null,
+      "style": "solid",
+      "color": null
+    },
+    {
+      "source": "CEO",
+      "target": "CFO",
+      "label": "",
+      "probability": null,
+      "style": "solid",
+      "color": null
+    },
+    {
+      "source": "CEO",
+      "target": "COO",
+      "label": "",
+      "probability": null,
+      "style": "solid",
+      "color": null
+    },
+    {
+      "source": "CSO",
+      "target": "GEN",
+      "label": "",
+      "probability": null,
+      "style": "solid",
+      "color": null
+    },
+    {
+      "source": "CSO",
+      "target": "CB",
+      "label": "",
+      "probability": null,
+      "style": "solid",
+      "color": null
+    },
+    {
+      "source": "CFO",
+      "target": "FIN",
+      "label": "",
+      "probability": null,
+      "style": "solid",
+      "color": null
+    }
+  ]
+}
